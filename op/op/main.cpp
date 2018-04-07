@@ -1,19 +1,17 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <string>
-#include <typeinfo>
 #include "list.h"
 
 using namespace std;
-using namespace::Program;
+using Program::list;
 
 int main()
 {
-	list *student = nullptr;
+	list student;
 	ifstream fin("students.csv");
 
 	
-
 	char buff[50];
 	fin.getline(buff, 50);
 	int count = stoi(buff);
@@ -38,16 +36,30 @@ int main()
 			}
 			in++;
 		}
+		if (file[i][columns - 1] == "TRUE")
+		{
+			double mark = 0;
+			int counter = columns - 2;
+			while (counter > 0)
+			{
+				mark += stoi(file[i][counter]);
+				counter--;
+			}
+			double res = mark / (columns - 2);
+			student.add(file[i][0], res);
+		}
 	}
+
+	student.print();
 	
-	for (int i(0); i < 80; i++)
+	/*for (int i(0); i < 80; i++)
 	{
 		for (int j(0); j < 7; j++)
 		{
 			cout << file[i][j] << " ";
 		}
 		cout << endl;
-	}
+	}*/
 	
 	fin.close();
 	
