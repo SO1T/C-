@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <fstream>
 
 namespace Program
 {
@@ -14,9 +15,12 @@ namespace Program
 	{
 	private:
 		student * next;
+		int length;
 	public:
 		list();
 		void add(std::string name, double i);
+		void create_list(std::ifstream& fin);
+		void fill(std::ofstream& fout);
 		void print();
 		~list();
 	};
