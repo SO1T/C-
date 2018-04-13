@@ -3,7 +3,6 @@
 struct QUEUE
 {
 	int key;
-	int level;
 	QUEUE *next;
 	QUEUE *prev;
 };
@@ -12,10 +11,12 @@ class queue
 {
 private:
 	QUEUE * next;
+	int length;
 public:
 	queue();
 	void push(int key);
 	int pop();
+	int get_len();
 	void print();
 	~queue();
 };

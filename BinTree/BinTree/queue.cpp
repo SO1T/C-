@@ -9,6 +9,7 @@ queue::queue()
 
 void queue::push(int key)
 {
+	length++;
 	QUEUE * p = new QUEUE;
 	p->key = key;
 	p->next = nullptr;
@@ -48,6 +49,11 @@ int queue::pop()
 	next = next->next;
 	delete pv;
 	return temp;
+}
+
+int queue::get_len()
+{
+	return length;
 }
 
 void queue::print()
