@@ -1,10 +1,9 @@
 #include "tree.h"
-#include "queue.h"
 #include <iostream>
 #include <vector>
 #include <iomanip>
 
-queue print_queue;
+
 
 namespace b_tree
 {
@@ -82,20 +81,24 @@ namespace b_tree
 	void tree::print(Node * tree)
 	{
 		int height = getHeight() * 2;
-		for (int i(0); i <= height; i++)
-			print_row(root, height, i);
+		if (height == 0)
+			std::cout << tree->num << std::endl;
+		else
+			for (int i(0); i < height; i++)
+				print_row(root, height, i);
 	}
 
-	void tree::print_row(Node * tree, int height, int depth)
+	void tree::print_row(const Node * tree, const int height, int depth)
 	{
-		get_line(tree, depth);
+		std::vector<int> print_vector;
+		get_line(tree, depth, print_vector);
 		std::cout << std::setw((height - depth) * 2);
 		bool toggle = true;
-		if (print_queue.get_len() > 1)
+		if (print_vector.size() > 1)
 		{
-			for (int i(0); i < print_queue.get_len(); i++)
+			for (int key : print_vector)
 			{
-				if (print_queue.pop() != 1337) //fix it
+				if (key != 1337)
 				{
 					if (toggle)
 						std::cout << "/" << "   ";
@@ -107,30 +110,29 @@ namespace b_tree
 			std::cout << std::endl;
 			std::cout << std::setw((height - depth) * 2);
 		}
-		for (int i(0); i < print_queue.get_len(); i++)
+		for (int key : print_vector)
 		{
-			int key = print_queue.pop();
 			if (key != 1337)
-				std::cout << key << "   ";
+			std::cout << key << "   ";
 		}
 		std::cout << std::endl;
 	}
 
-	void tree::get_line(Node * tree, int depth)
+	void tree::get_line(const Node * tree, int depth, std::vector<int>& val)
 	{
 		if (depth <= 0 && tree != nullptr)
 		{
-			print_queue.push(tree->num);
+			val.push_back(tree->num);
 			return;
 		}
 		if (tree->left != nullptr)
-			get_line(tree->left, depth - 1);
+			get_line(tree->left, depth - 1, val);
 		else if (depth - 1 <= 0)
-			print_queue.push(1337);
+			val.push_back(1337);
 		if (tree->right != nullptr)
-			get_line(tree->right, depth - 1);
+			get_line(tree->right, depth - 1, val);
 		else if (depth - 1 <= 0)
-			print_queue.push(1337);
+			val.push_back(1337);
 	}
 
 	tree::~tree()
