@@ -7,7 +7,7 @@
 
 using namespace std;
 
-int create_grid(string str)
+vector<vector<string> > create_grid(string str)
 {
 	ifstream fin(str);
 	char buff[50];
@@ -40,12 +40,6 @@ int create_grid(string str)
 			grid[k][x] = buff[x];
 		}
 	}
-	
-	for (int k(0); k < grid.size(); k++)
-	{
-		for (int x(0); x < grid[k].size(); x++)
-			cout << grid[k][x];
-		cout << endl;
-	}
-	return i;
+
+	return grid;
 }

@@ -1,4 +1,7 @@
 #pragma once
 #include <string>
+#include <vector>
 
-int create_grid(std::string str);
+using namespace std;
+
+vector<vector<string> > create_grid(string str);
