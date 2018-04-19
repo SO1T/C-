@@ -1,0 +1,7 @@
+﻿  lib.cpp
+c:\users\den27\source\repos\laba4.1\laba4.1\lib.cpp(29): warning C4018: '<': signed/unsigned mismatch
+c:\users\den27\source\repos\laba4.1\laba4.1\lib.cpp(35): warning C4018: '<': signed/unsigned mismatch
+c:\users\den27\source\repos\laba4.1\laba4.1\lib.cpp(38): warning C4018: '<': signed/unsigned mismatch
+c:\users\den27\source\repos\laba4.1\laba4.1\lib.cpp(44): warning C4018: '<': signed/unsigned mismatch
+c:\users\den27\source\repos\laba4.1\laba4.1\lib.cpp(46): warning C4018: '<': signed/unsigned mismatch
+  laba4.1.vcxproj -> C:\Users\den27\source\repos\laba4.1\Debug\laba4.1.exe
