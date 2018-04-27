@@ -1,0 +1,42 @@
+﻿  main.cpp
+c:\users\den27\source\repos\finding_path\finding_path\main.cpp(91): warning C4018: '<': signed/unsigned mismatch
+c:\users\den27\source\repos\finding_path\finding_path\main.cpp(97): warning C4018: '<': signed/unsigned mismatch
+c:\users\den27\source\repos\finding_path\finding_path\main.cpp(100): warning C4018: '<': signed/unsigned mismatch
+c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.13.26128\include\unordered_map(132): error C2280: 'std::hash<_Kty>::hash(const std::hash<_Kty> &)': attempting to reference a deleted function
+          with
+          [
+              _Kty=point
+          ]
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.13.26128\include\type_traits(2382): note: compiler has generated 'std::hash<_Kty>::hash' here
+          with
+          [
+              _Kty=point
+          ]
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.13.26128\include\unordered_map(131): note: while compiling class template member function 'std::unordered_map<point,int,std::hash<_Kty>,std::equal_to<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>::unordered_map(void)'
+          with
+          [
+              _Kty=point,
+              _Ty=int
+          ]
+  c:\users\den27\source\repos\finding_path\finding_path\main.cpp(194): note: see reference to function template instantiation 'std::unordered_map<point,int,std::hash<_Kty>,std::equal_to<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>::unordered_map(void)' being compiled
+          with
+          [
+              _Kty=point,
+              _Ty=int
+          ]
+  c:\users\den27\source\repos\finding_path\finding_path\main.cpp(162): note: see reference to class template instantiation 'std::unordered_map<point,int,std::hash<_Kty>,std::equal_to<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>' being compiled
+          with
+          [
+              _Kty=point,
+              _Ty=int
+          ]
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.13.26128\include\type_traits(2382): note: 'std::hash<_Kty>::hash(const std::hash<_Kty> &)': function was implicitly deleted because a base class invokes a deleted or inaccessible function 'std::_Conditionally_enabled_hash<_Kty,false>::_Conditionally_enabled_hash(const std::_Conditionally_enabled_hash<_Kty,false> &)'
+          with
+          [
+              _Kty=point
+          ]
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.13.26128\include\type_traits(2366): note: 'std::_Conditionally_enabled_hash<_Kty,false>::_Conditionally_enabled_hash(const std::_Conditionally_enabled_hash<_Kty,false> &)': function was explicitly deleted
+          with
+          [
+              _Kty=point
+          ]
