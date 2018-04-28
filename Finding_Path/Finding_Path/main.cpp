@@ -134,7 +134,7 @@ bool operator != (point a, point b)
 	return a.x != b.x || a.y != b.y;
 }
 
-void reconstruct(vector<vector<string> >& grid, point start, point finish, unordered_map<point, point> came_from)
+void reconstruct(vector<vector<string> >& grid, point start, point finish, unordered_map<point, point>& came_from)
 {
 	vector<point> path;
 	point current = finish;
@@ -161,7 +161,9 @@ void Dijkstra(vector<vector<string> > grid, int n, int m, point start, point fin
 	came_from[start] = start;
 	cost_so_far[start] = 0;
 
-	while (isEmpty(queue))
+	enqueue(queue, start);
+
+	while (!isEmpty(queue))
 	{
 		auto current = front(queue);
 		dequeue(queue);
