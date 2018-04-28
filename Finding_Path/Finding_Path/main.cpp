@@ -1,8 +1,6 @@
 #include <iostream>
-#include <vector>
 #include <string>
 #include <fstream>
-#include <unordered_map>
 
 using namespace std;
 
@@ -69,13 +67,13 @@ point rear(Queue *queue)
 	return queue->array[queue->rear];
 }
 
-vector<vector<string> > create_grid(string str, int& n, int& m)
+string **create_grid(string str)
 {
 	ifstream fin(str);
 	char buff[50];
 
-	n = 0;
-	m = 0;
+	int n = 0;
+	int m = 0;
 
 	while (!fin.eof())
 	{
@@ -85,119 +83,109 @@ vector<vector<string> > create_grid(string str, int& n, int& m)
 		m++;
 	}
 
-	vector<vector<string> > grid;
-	grid.resize(m);
+	string **grid = new string*[m];
 
-	for (int k(0); k < grid.size(); k++)
-		grid[k].resize(n);
+	for (int k(0); k < m; k++)
+		grid[k] = new string[n];
 
 	fin.clear();
 	fin.seekg(0, ios::beg);
 
-	for (int k(0); k < grid.size(); k++)
+	for (int i(0); i < m; i++)
 	{
 		fin.getline(buff, 50);
-		for (int x(0); x < grid[k].size(); x++)
+		for (int j(0); j < n; j++)
 		{
-			grid[k][x] = buff[x];
+			grid[i][j] = buff[j];
 		}
 	}
-
 	return grid;
 }
 
-vector<point> neighbors(point p, vector<vector<string> > grid, int n, int m)
+void reconstruct(string **grid, int **dir, point start, point finish, int last)
 {
-	int x = p.x;
-	int y = p.y;
-	int dx[4] = { -1, 0, 1, 0 };
-	int dy[4] = { 0, 1, 0, -1 };
-	vector<point> results;
+	int di[4] = { -1,0,1,0 };
+	int dj[4] = { 0,1,0,-1 };
+	int **d = dir;
+	Queue *queue = createQueue(100);
+	enqueue(queue, finish);
+	int l = last;
+	int ch = 66;
 
-	for (int k(0); k < 4; k++)
+	while (!isEmpty(queue))
 	{
-		point temp = { x + dx[k], y + dy[k] };
-		if (0 <= temp.x && temp.x < n && 0 <= temp.y && temp.y < m)
-			if (grid[temp.x][temp.y] != "#")
-				results.push_back(temp);
+		point p = dequeue(queue);
+		for (int k(0); k < 4; k++)
+		{
+			point newp = { p.x + di[k],p.y + dj[k] };
+			if (dir[newp.x][newp.y] == l - 1 || l == 0)
+			{
+				grid[newp.x][newp.y] = (char)ch;
+				enqueue(queue, newp);
+				l--;
+				ch++;
+			}
+		}
 	}
-	return results;
-}
-
-bool operator == (point a, point b)
-{
-	return a.x == b.x && a.y == b.y;
-}
-
-bool operator != (point a, point b)
-{
-	return a.x != b.x || a.y != b.y;
-}
-
-void reconstruct(vector<vector<string> >& grid, point start, point finish, unordered_map<point, point>& came_from)
-{
-	vector<point> path;
-	point current = finish;
-	path.push_back(current);
-	while (current != start)
+	grid[finish.x][finish.y] = (char)65;
+	for (int f(0); f < 8; f++)
 	{
-		current = came_from[current];
-		path.push_back(current);
-	}
-
-	int ch = 65;
-	for (auto v : path)
-	{
-		grid[v.x][v.y] = (char)ch;
-		ch++;
-		if (ch == 90)
-			ch = 65;
+		for (int g(0); g < 8; g++)
+			cout << grid[f][g];
+		cout << endl;
 	}
 }
 
-void Dijkstra(vector<vector<string> > grid, int n, int m, point start, point finish, unordered_map<point, point>& came_from, unordered_map<point, int>& cost_so_far)
-{
-	Queue *queue = createQueue(n * m);
-	came_from[start] = start;
-	cost_so_far[start] = 0;
 
+void Djicstra(string **grid, int m, int n, point start, point finish)
+{
+	int di[4] = { -1,0,1,0 };
+	int dj[4] = { 0,1,0,-1 };
+	int i = 0, j = 0;
+	int **d = new int*[m];
+	for (int k(0); k < m; k++)
+		d[k] = new int[n];
+
+	for (i = 0; i < m; i++)
+		for (j = 0; j < n; j++)
+			d[i][j] = 0;
+
+	d[start.x][start.y] = 1;
+
+	Queue *queue = createQueue(m * n);
 	enqueue(queue, start);
 
 	while (!isEmpty(queue))
 	{
-		auto current = front(queue);
-		dequeue(queue);
-
-		if (current == finish)
-			break;
-
-		for (auto next : neighbors(current, grid, n, m))
+		point p = dequeue(queue);
+		for (int k(0); k < 4; k++)
 		{
-			int new_cost = cost_so_far[current] + 1;
-			if (!cost_so_far.count(next) || new_cost < cost_so_far[next])
-			{
-				cost_so_far[next] = new_cost;
-				came_from[next] = current;
-				enqueue(queue, next);
-			}
-
-
+			point newp = { p.x + di[k],p.y + dj[k] };
+			if (0 <= newp.x && newp.x < m && 0 <= newp.y && newp.y < n)
+				if (grid[newp.x][newp.y] == " " && d[newp.x][newp.y] == 0)
+				{
+					d[newp.x][newp.y] = d[p.x][p.y] + 1;
+					enqueue(queue, newp);
+				}
 		}
 	}
-
-
+	reconstruct(grid, d, start, finish, d[finish.x][finish.y]);
 }
+
 
 int main()
 {
-	int n, m;
-	vector<vector<string> > grid = create_grid("C:\\Users\\den27\\Desktop\\labirint.txt", n, m);
-	unordered_map<point, point> came_from;
-	unordered_map<point, int> cost_so_far;
-	point start = { 7,2 };
-	point finish = { 2, 7 };
-	Dijkstra(grid, n, m, start, finish, came_from, cost_so_far);
-	reconstruct(grid, start, finish, came_from);
+	string **grid = create_grid("C:\\Users\\den27\\Desktop\\labirint.txt");
+	Djicstra(grid, 8, 8, { 6,1 }, { 1,6 });
+	grid[6][1] = "a";
+	grid[1][6] = "a";
+
+	/*for (int i(0); i < 8; i++)
+	{
+		for (int j(0); j < 8; j++)
+			cout << grid[i][j];
+		cout << endl;
+	}*/
 
 	system("pause");
 	return 0;
