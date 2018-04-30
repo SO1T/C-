@@ -134,27 +134,27 @@ int heuristic(point c, point f)
 	return dx + dy;
 }
 
-void reconstruction(string **grid, int m, int n, point start, point finish, int **dir)
+void reconstruct(string **grid, int **dir, point start, point finish, int last, int m, int n)
 {
 	int di[4] = { -1,0,1,0 };
 	int dj[4] = { 0,1,0,-1 };
 	int **d = dir;
-	Queue *queue = createQueue(100);
-	enqueue(queue, finish, 0);
+	Queue * queue = createQueue(100);
+	enqueue(queue, finish, 1);
+	int l = last;
 	int ch = 66;
 
 	while (!isEmpty(queue))
 	{
 		point p = dequeue(queue);
-		if (heuristic(p, start) == 0)
-			break;
 		for (int k(0); k < 4; k++)
 		{
 			point newp = { p.x + di[k],p.y + dj[k] };
-			if (dir[newp.x][newp.y] != 0)
+			if (dir[newp.x][newp.y] == l - 1 && dir[newp.x][newp.y] != 0 || l == 0)
 			{
 				grid[newp.x][newp.y] = (char)ch;
-				enqueue(queue, newp, heuristic(newp, start));
+				enqueue(queue, newp, 1);
+				l--;
 				ch++;
 			}
 		}
@@ -163,12 +163,12 @@ void reconstruction(string **grid, int m, int n, point start, point finish, int 
 
 	ofstream fout("exit.txt");
 	for (int f(0); f < m; f++)
-	{
+		{
 		for (int g(0); g < n; g++)
 			fout << grid[f][g];
 		fout << endl;
-	}
-	fout.clear();
+		}
+	fout.close();
 }
 
 void Djicstra(string **grid, int m, int n, point start, point finish)
@@ -196,7 +196,6 @@ void Djicstra(string **grid, int m, int n, point start, point finish)
 		p = dequeue(queue);
 		if (heuristic(p, finish) == 0)
 			break;
-		//cout << p.x << " - x:y - " << p.y << " d - " << heuristic(p, finish) << endl;
 		for (int k(0); k < 4; k++)
 		{
 			point newp = { p.x + di[k],p.y + dj[k] };
@@ -208,8 +207,8 @@ void Djicstra(string **grid, int m, int n, point start, point finish)
 				}
 		}
 	}
-
-	reconstruction(grid, m, n, start, finish, d);
+	
+	reconstruct(grid, d, start, finish, d[finish.x][finish.y], m, n);
 
 }
 
