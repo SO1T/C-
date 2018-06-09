@@ -1,0 +1,8 @@
+﻿  main.cpp
+c:\users\den27\source\repos\cursova\cursova\main.cpp(8): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  myLib.cpp
+c:\users\den27\source\repos\cursova\cursova\mylib.cpp(8): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\den27\source\repos\cursova\cursova\mylib.cpp(92): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  Generating Code...
+c:\users\den27\source\repos\cursova\cursova\mylib.cpp(103): warning C4715: 'interpolation_search': not all control paths return a value
+  cursova.vcxproj -> C:\Users\den27\source\repos\cursova\Debug\cursova.exe
